@@ -10,8 +10,7 @@ class Drone {
             this.flying = false;
             this.goal = { x: 0, y: 0 };
 
-
-            droneGeometry.rotateX(-Math.PI / 2).translate(0, 0, 0);
+            droneGeometry.rotateX(-Math.PI / 2).rotateY(-Math.PI / 2).translate(0, 0, 0);
             const droneMaterial = new THREE.MeshStandardMaterial({
                 color: 0x666666,
                 roughness: 0.8,
@@ -23,16 +22,15 @@ class Drone {
             droneMesh.scale.set(scale, scale, scale);
             this.drone = droneMesh;
 
-            this.drone.position.x = this.config.drone.eastWest = 0;  //Change the start coordinates of the drone
+            this.drone.position.x = this.config.drone.eastWest;
             this.drone.position.y = this.config.drone.height;
-            this.drone.position.z = this.config.drone.northSouth = 0 ; 
-            
+            this.drone.position.z = this.config.drone.northSouth;
+
             this.addDrone();
             this.addCamera();
             this.update();
 
             this.animate = this.animate.bind(this);
-            this.droneMoveTest = this.droneMoveTest.bind(this);
             this.click = doubleClick(this.click.bind(this));
 
             window.addEventListener('pointerdown', this.click);
@@ -53,7 +51,6 @@ class Drone {
         this.drone.position.x = position;
         this.update();
     }
-    
 
     setNorthSouth(position) {
         this.drone.position.z = position;
@@ -114,38 +111,6 @@ class Drone {
         }
     }
 
-    droneMoveTest() {
-
-        
-        // mouse click coordinates
-        
-        const mouse = {
-            x: (this.config.drone.endx) * 0.005585,  //0.0078742D coordinates of the mouse, in normalized device coordinates (NDC)---X and Y components should be between -1 and 1 range min is -0.45 range max +0.45
-            y: -(this.config.drone.endy) * 0.013423  //The NDC-to-pixel transformation will invert Y if necessary so that Y in NDC points up.
-        };
-
-        // raycast target
-        const ray = new THREE.Raycaster();
-        ray.setFromCamera(new THREE.Vector3(mouse.x, mouse.y, 1), this.stage.camera);
-
-        const intersects = ray.intersectObject(this.forest.grounds[0]);
-        if (intersects.length) {
-            // set goal position
-            this.goal = intersects[0].point;
-
-            // update config position
-            this.config.drone.eastWest = this.drone.position.x;
-            this.config.drone.northSouth = this.drone.position.z;
-
-            // set flying
-            this.flying = true;
-
-            // animate movement
-            this.animate();
-        }
-    }
-
-    
     animate(currentTime) {
         if (!currentTime) {
             this.startTime = 0;
@@ -171,7 +136,7 @@ class Drone {
         const trajectoryTime = deltaTime / moveDuration;
 
         // calculate distance
-        const currentDistance = deltaTime * this.config.drone.speed / 1000; 
+        const currentDistance = deltaTime * this.config.drone.speed / 1000;
         const deltaDistance = currentDistance - this.lastCapture;
 
         // DEBUG
@@ -190,7 +155,7 @@ class Drone {
 
             // capture image
             if (deltaDistance >= this.config.drone.camera.sampling) {
-                this.lastCapture = Math.fround(currentDistance);
+                this.lastCapture = Math.floor(currentDistance);
                 this.camera.capture(true);
             }
 
@@ -206,53 +171,43 @@ class Drone {
 
             // reset flying
             this.flying = false;
-
-        
         }
-        
     }
 
     capture() {
-        //if (this.camera) {
-        //this.config.drone.eastWest = this.drone.position.x = 0;
-        //this.config.drone.northSouth = this.drone.position.z = 0;
-        this.droneMoveTest(); 
-        
-       
-            /*
+        if (this.camera) {
             return new Promise(async (resolve) => {
-                const view = this.getView(); 
+                const view = this.getView();
 
                 const start = {
-                    x: -35,  // mention the place where you want to start for ex: -35
+                    x: Math.round(-this.config.forest.ground / 2 - view.r),
                     y: 0,
-                    z: -35
+                    z: Math.round(-this.config.forest.ground / 2 + view.r)
                 };
 
                 const end = {
-                    x: 35,
+                    x: Math.round(this.config.forest.ground / 2 + view.r),
                     y: 0,
-                    z: 35
+                    z: Math.round(this.config.forest.ground / 2 + view.r)
                 };
 
                 const step = {
                     x: this.config.drone.camera.sampling,
                     y: 0,
-                    z: this.config.drone.camera.sampling,     //(view.r * 2)
+                    z: view.r * 2
                 };
 
                 // set flying
                 this.flying = true;
 
                 // update drone position
-                /*
-                let dir = 1 ;
+                let dir = 1;
                 for (let z = start.z; z <= end.z && this.flying; z = z + step.z) {
                     this.setNorthSouth(z);
 
                     for (let x = start.x; x <= end.x && this.flying; x = x + step.x) {
                         this.setEastWest(x * dir);
-                        
+
                         // capture image
                         await this.camera.capture(false);
                         await new Promise((r) => { setTimeout(r, 10); });
@@ -261,46 +216,27 @@ class Drone {
                     // swap direction
                     dir = dir * -1;
                 }
-                
-                
-                
-                let dir = 1 ;              
-                for (let x = start.x , z = start.z; x <= end.x && this.flying, z<= end.z && this.flying; x = x + step.x, z= z + step.z) {
-                    this.setEastWest(x * dir);
-                    this.setNorthSouth(z);
-                   
-                                   
-                    
-                    await this.camera.capture(false);
-                    await new Promise((r) => { setTimeout(r, 10); });
-                   
-                
-                }*/
-               
 
                 // reset drone position
-               // this.drone.position.x = 0.0;
-               // this.drone.position.z = 0.0;
- 
-                
+                this.drone.position.x = 0.0;
+                this.drone.position.z = 0.0;
+
                 // reset config position
-               // this.config.drone.eastWest = this.drone.position.x;
-               // this.config.drone.northSouth = this.drone.position.z;
+                this.config.drone.eastWest = this.drone.position.x;
+                this.config.drone.northSouth = this.drone.position.z;
 
                 // reset flying
-                //this.flying = false;
-                //this.update();
+                this.flying = false;
+                this.update();
 
-                //resolve();
-            //});
-        //}
+                resolve();
+            });
+        }
     }
-    
 
     update() {
         if (this.drone) {
             this.drone.position.y = this.config.drone.height;
-            
 
             // update camera
             if (this.camera) {
@@ -333,13 +269,7 @@ class Drone {
     }
 
     reset() {
-        
         this.clear();
-        //this.drone.position.x = 0;
-        //this.drone.position.z = 0;
-        this.drone.position.y = this.config.drone.height;
-        
         this.update();
-        
     }
 }
