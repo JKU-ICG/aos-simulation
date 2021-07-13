@@ -1,4 +1,4 @@
-# AOS-Simulation
+# AOS-Simulation ( Rakesh Version)
 Airborne Optical Sectioning Simulation based on https://arxiv.org/abs/2009.08835.
 
 ## Abstract
