@@ -8,7 +8,7 @@ Airborne Optical Sectioning Simulation based on https://arxiv.org/abs/2009.08835
 [![YouTube](https://img.youtube.com/vi/kyKVQYG-j7U/0.jpg)](https://www.youtube.com/watch?v=kyKVQYG-j7U)
 
 ## Demo
-Live demo of this repository code can be found [here](https://aos.tensorware.app).
+Use Visual Studio code to run the simulation
 
 ## Status
 Work in progress, more to come...
