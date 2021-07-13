@@ -7,12 +7,10 @@ class Forest {
 
         this.trees = [...new Array(this.config.forest.size)];
         this.persons = [... new Array(this.config.forest.persons)];
-        //this.persons1 = [... new Array(this.config.forest.persons)];
 
         this.grounds = [];
         this.treePositions = [];
         this.personPositions = [];
-        //this.personPositions1 = [];
 
         this.workers = getWorkers();
         this.workersUpdate = [];
@@ -40,14 +38,10 @@ class Forest {
             'broad-leaf': new THREE.TextureLoader().load(`img/broad-leaf.png`)
         };
 
-       
         this.update();
         this.addGround();
         this.addTrees();
         this.addPersons();
-        this.personMoveTest = this.personMoveTest.bind(this);
-        //this.personMoveTest1 = this.personMoveTest1.bind(this);
-        
     }
 
     getGround(size) {
@@ -80,21 +74,10 @@ class Forest {
 
     getPerson(index) {
         const person = new Person(this).mesh;
-        person.position.x = this.personPositions[0].x;
-        person.position.z = this.personPositions[0].z;
-        
+        person.position.x = this.personPositions[index].x;
+        person.position.z = this.personPositions[index].z;
         return person;
     }
-
-    /*getPerson1(index) {
-        const person1 = new Person1(this).mesh;
-        person1.position.x = this.personPositions1[index].x;
-        person1.position.z = this.personPositions1[index].z;
-        
-        return person1;
-    }
-*/
-    
 
     addGround() {
         const size = this.config.forest.ground;
@@ -191,121 +174,20 @@ class Forest {
             }).bind(this);
         });
     }
-   
+
     addPersons() {
         const persons = [];
-        for (let i = 0; i <= 0; i++) {
+        for (let i = 0; i < this.config.forest.persons; i++) {
             persons.push(this.getPerson(i));
-            
         }
 
         // append persons
         persons.forEach((person, i) => {
             this.persons[i] = person;
             this.scene.add(person);
-           
         });
     }
-    /*addPersons1() {
-        const persons1 = [];
-        for (let i = 0; i <= 0; i++) {
-            persons1.push(this.getPerson1(i));
-            
-        }
 
-        // append persons
-        persons1.forEach((person1, i) => {
-            this.persons1[i] = person1;
-            this.scene.add(person1);
-           
-        });
-    }
-*/
-    personMoveTest(currentTime) {
-        if(!currentTime) {
-            this.startTime = 0;
-            requestAnimationFrame(this.personMoveTest);
-            return;
-        }
-        else if (!this.startTime) {
-            this.startTime = currentTime;
-        }
-        const start = new THREE.Vector3( this.config.forest.personstartx, 0, this.config.forest.personstarty);
-        const end = new THREE.Vector3(this.config.forest.personendx , 0, this.config.forest.personendy);
-        
-        const personSpeed = this.config.forest.personSpeed;
-
-        const moveDuration = start.distanceTo(end) / personSpeed * 1000;
-        
-        if (moveDuration <=0) {
-            return;
-        }
-        const deltaTime = currentTime - this.startTime;
-        const trajectoryTime = deltaTime / moveDuration;
-        
-        if(deltaTime <= moveDuration) {
-            const current = new THREE.Vector3();
-            const trajectory = new THREE.Line3(start, end);
-            trajectory.at(trajectoryTime, current);
-
-            this.persons.forEach((person) => {
-               // this.persons[1] = person;
-                
-                person.position.x = current.x;
-                person.position.z = current.z;
-            })
-            requestAnimationFrame(this.personMoveTest);
-        }
-        else {
-            
-        }
-                
-    }
-
-    /*personMoveTest1(currentTime) {
-        if(!currentTime) {
-            this.startTime = 0;
-            requestAnimationFrame(this.personMoveTest1);
-            return;
-        }
-        else if (!this.startTime) {
-            this.startTime = currentTime;
-        }
-        const start = new THREE.Vector3( 0, 0, 0);
-        const end = new THREE.Vector3(0 , 0, 35);
-        
-        const personSpeed = this.config.forest.personSpeed;
-
-        const moveDuration = start.distanceTo(end) / personSpeed * 1000;
-        
-        if (moveDuration <=0) {
-            return;
-        }
-        const deltaTime = currentTime - this.startTime;
-        const trajectoryTime = deltaTime / moveDuration;
-        
-        if(deltaTime <= moveDuration) {
-            const current1 = new THREE.Vector3();
-            const trajectory = new THREE.Line3(start, end);
-            trajectory.at(trajectoryTime, current1);
-
-            this.persons1.forEach((person1) => {
-               // this.persons[1] = person;
-                
-                person1.position.x = current1.x;
-                person1.position.z = current1.z;
-            })
-            requestAnimationFrame(this.personMoveTest1);
-        }
-        else {
-            
-        }
-                
-    }
-    */
-  
-
-  
     onUpdate(cb) {
         this.workersUpdate.push(cb);
     }
@@ -357,36 +239,21 @@ class Forest {
                 tree.visible = treeInsideX && treeInsideY;
             }
         });
-        
+
         // update persons
         const personMargin = 2;
         const personPositionMin = -sizeInner / 2 + personMargin;
         const personPositionMax = sizeInner / 2 - personMargin;
-        
-        
-        this.personPositions = [];
-        for (let i = 0; i <= 0; i++) {
-            this.personPositions.push({
-                x: 0, // randomFloat(personPositionMin, personPositionMax),
-                y: 0,
-                z: 0 //randomFloat(personPositionMin, personPositionMax)
-                
-            });
-        }
-       /*
-        this.personPositions1 = [];
-        for (let i = 0; i <= 0; i++) {
-            this.personPositions1.push({
-                x: 0, // randomFloat(personPositionMin, personPositionMax),
-                y: 0,
-                z: 0 //randomFloat(personPositionMin, personPositionMax)
-                
-            });
-        }
-        
-        */
-        
 
+        // calculate person positions
+        this.personPositions = [];
+        for (let i = 0; i <= 1000; i++) {
+            this.personPositions.push({
+                x: randomFloat(personPositionMin, personPositionMax),
+                y: 0,
+                z: randomFloat(personPositionMin, personPositionMax)
+            });
+        }
 
         // hide persons
         this.persons.forEach((person) => {
@@ -410,15 +277,12 @@ class Forest {
         }
     }
 
-    
-
-
     export(zip) {
         const forest = zip.folder('forest');
 
         // export trees
         const trees = { positions: [] };
-        for (let i = 0; i < this.trees.length; i++) {+
+        for (let i = 0; i < this.trees.length; i++) {
             trees.positions.push(this.treePositions[i]);
         }
         forest.file('trees.json', JSON.stringify(trees, null, 4));
@@ -440,7 +304,6 @@ class Forest {
             // remove all persons
             this.persons.forEach((person) => { this.scene.remove(person); });
             this.persons = [];
-          
         }
 
         // remove trees
@@ -462,13 +325,9 @@ class Forest {
     }
 
     reset() {
-        
         this.clear();
         this.update();
+
         this.addPersons();
-        //this.addPersons1();
-        
-        
-        
     }
 }
