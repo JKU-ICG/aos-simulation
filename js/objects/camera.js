@@ -33,11 +33,11 @@ class Camera {
         });
 
         const rectangleGeometry = new THREE.PlaneGeometry();
-        rectangleGeometry.rotateX(-Math.PI / 2).rotateY(Math.PI / 4).translate(0, 0, 0);
+        rectangleGeometry.rotateX(-Math.PI / 2).translate(0, 0, 0);
         const rectangle = new THREE.Mesh(rectangleGeometry, this.planeMaterial);
 
         const textGeometry = new THREE.TextGeometry('', { font: this.stage.font });
-        textGeometry.rotateX(-Math.PI / 2).rotateY(Math.PI / 4).translate(0, 0, 0);
+        textGeometry.rotateX(-Math.PI / 2).translate(0, 0, 0);
         const text = new THREE.Mesh(textGeometry, this.textMaterial);
 
         this.plane = {
@@ -46,7 +46,7 @@ class Camera {
             text: text
         };
 
-        this.plane.border.layers.set(2);
+        this.plane.border.layers.set(1);
         this.plane.text.layers.set(1);
         this.viewLines.forEach((viewLine) => {
             viewLine.layers.set(1);
@@ -152,154 +152,32 @@ class Camera {
         const coverage = 2 * this.config.drone.height * Math.tan(radian(this.config.drone.camera.view / 2));
         const overlap = coverage / distance;
         const time = coverage / this.config.drone.speed;
-        const alpha1 = this.config.drone.camera.orientation;
-        const beta1 = (alpha1 * 0.0174533);
 
         // DEBUG
         // log('debug', distance, coverage, overlap, time);
 
         // update view lines (camera to corner)
-        //const corners = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-        if (alpha1 == 45){
-            const corners = [[1, 0], [0, -1], [-1, 0], [0, 1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = 1.4 * view.r * corners[i][0] + view.x;
-                const z = 1.4 * view.r * corners[i][1] + view.z;
+        const corners = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+        this.viewLines.forEach((viewLine, i) => {
+            const x = view.r * corners[i][0] + view.x;
+            const z = view.r * corners[i][1] + view.z;
 
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
-        
-        else if (alpha1 == 90){
-            const corners = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = view.r * corners[i][0] + view.x;
-                const z = view.r * corners[i][1] + view.z;
-
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
-        else if (alpha1 == 0){
-            const corners = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = view.r * corners[i][0] + view.x;
-                const z = view.r * corners[i][1] + view.z;
-
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
-        else if (alpha1 == 180){
-            const corners = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = view.r * corners[i][0] + view.x;
-                const z = view.r * corners[i][1] + view.z;
-
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
-        else if (alpha1 == 270){
-            const corners = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = view.r * corners[i][0] + view.x;
-                const z = view.r * corners[i][1] + view.z;
-
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
-        else if (alpha1 == 360){
-            const corners = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = view.r * corners[i][0] + view.x;
-                const z = view.r * corners[i][1] + view.z;
-
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
-        else if (alpha1 == 135){
-            const corners = [[1, 0], [0, -1], [-1, 0], [0, 1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = 1.4 * view.r * corners[i][0] + view.x;
-                const z = 1.4 * view.r * corners[i][1] + view.z;
-
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
-        else if (alpha1 == 225){
-            const corners = [[1, 0], [0, -1], [-1, 0], [0, 1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = 1.4 * view.r * corners[i][0] + view.x;
-                const z = 1.4 * view.r * corners[i][1] + view.z;
-
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
-        else if (alpha1 == 315){
-            const corners = [[1, 0], [0, -1], [-1, 0], [0, 1]];
-        
-            this.viewLines.forEach((viewLine, i) => {
-                const x = 1.4 * view.r * corners[i][0] + view.x;
-                const z = 1.4 * view.r * corners[i][1] + view.z;
-
-                viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(view.x, view.y, view.z),
-                    new THREE.Vector3(x, 0, z)
-                ]));
-            
-            });
-        }
+            viewLine.geometry.copy(new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(view.x, view.y, view.z),
+                new THREE.Vector3(x, 0, z)
+            ]));
+        });
 
         // update plane
-        const alpha = this.config.drone.camera.orientation;
-        const beta = (alpha * 0.0174533);
         const rectangleGeometry = new THREE.PlaneGeometry(coverage, coverage);
-        rectangleGeometry.rotateX(-Math.PI / 2).rotateY(beta).translate(view.x, 0.05, view.z);
+        rectangleGeometry.rotateX(-Math.PI / 2).translate(view.x, 0.05, view.z);
         this.plane.rectangle.geometry.copy(rectangleGeometry);
         this.plane.border.update();
 
         // update text
         const text = coverage.toFixed(2) + ' x ' + coverage.toFixed(2);
         const textGeometry = new THREE.TextGeometry(text, { font: this.stage.font, size: coverage / 10, height: 0.10 });
-        textGeometry.rotateX(-Math.PI / 2).rotateY(beta);
+        textGeometry.rotateX(-Math.PI / 2);
         this.plane.text.geometry.copy(textGeometry);
 
         // update text position
@@ -312,7 +190,6 @@ class Camera {
         this.camera.fov = this.config.drone.camera.view;
         this.camera.position.set(view.x, view.y, view.z);
         this.camera.lookAt(view.x, 0, view.z);
-        this.camera.rotateZ(beta);
         this.camera.updateProjectionMatrix();
 
         // render camera preview
