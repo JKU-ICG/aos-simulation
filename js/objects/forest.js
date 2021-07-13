@@ -113,7 +113,7 @@ class Forest {
             workerConfigs.push(this.getTree(i));
         }
 
-        // init workers
+        // ini workers
         this.workers.forEach((worker) => { worker.terminate(); });
         this.workers = getWorkers();
 
