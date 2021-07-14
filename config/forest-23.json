@@ -4,11 +4,14 @@
         "height": 35.0,
         "eastWest": 0.0,
         "northSouth": 0.0,
+        "endx": 30.0,
+        "endy": 30.0,
         "camera": {
-            "view": 90,
-            "images": 0,
+            "view": 50,
+            "images": 30,
             "sampling": 1,
             "resolution": 512,
+            "orientation": 0,
             "type": "monochrome"
         },
         "cpu": {
@@ -16,8 +19,14 @@
         }
     },
     "forest": {
-        "size": 900,
+        "size": 100,
         "persons": 0,
+        "personstartx": 0,
+        "personstarty": 0,
+        "personendx": 0,
+        "personendy": 0,
+        "personSpeed": 1,
+        "personOrientation": 0,
         "ground": 70,
         "trees": {
             "levels": 6,
@@ -50,10 +59,10 @@
     "material": {
         "color": {
             "tree": "0x613615",
-            "twig": "0x557755",
+            "twig": "0x0c500e",
             "ground": "0x010101",
-            "plane": "0xffffff",
-            "person": "0x660000",
+            "plane": "0x010101",
+            "person": "0xffffff",
             "background": "0x87ceeb"
         }
     }
