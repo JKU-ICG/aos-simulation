@@ -247,11 +247,12 @@ const log = (level) => {
     }
 }
 
-Date.prototype.yyyymmddhhmm = () => {
+Date.prototype.yyyymmddhhmm = function () {
+    //console.log(typeof(this))
     const yyyy = this.getFullYear();
     const mm = this.getMonth() < 9 ? '0' + (this.getMonth() + 1) : (this.getMonth() + 1);
     const dd = this.getDate() < 10 ? '0' + this.getDate() : this.getDate();
     const hh = this.getHours() < 10 ? '0' + this.getHours() : this.getHours();
     const min = this.getMinutes() < 10 ? '0' + this.getMinutes() : this.getMinutes();
     return yyyy + '-' + mm + '-' + dd + '-' + hh + '-' + min;
-}
+};
