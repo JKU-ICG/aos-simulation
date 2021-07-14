@@ -9,9 +9,20 @@ Airborne Optical Sectioning Simulation based on https://arxiv.org/abs/2009.08835
 
 ## Demo
 Use Visual Studio code to run the simulation
+Or check out [Github pages](https://jku-icg.github.io/aos-simulation/)
 
 ## Status
 Work in progress, more to come...
+
+### Automatic Simulation
+It is possible now to simulate a flight and download the corresponding images with a URL parameters. 
+For example you can use https://jku-icg.github.io/aos-simulation/?download=1 to run a configuration.
+
+# ToDos:
+
+[ ] run non-realtime: right now everything runs in real-time. This is a problem for generating huge training datasets because multiple frames will be rendered although only a handful (e.g., 10 or 30) will be needed. 
+
+[ ] automate the rendering with multple configurations that are sequentially processed. 
 
 ## License
 [MIT](/LICENSE)
