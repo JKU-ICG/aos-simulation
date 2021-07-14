@@ -1,5 +1,5 @@
 class View {
-    constructor(root, config, files) {
+    constructor(root, config, files, download=false) {
         this.root = root;
         this.config = config;
         this.files = files;
@@ -13,7 +13,10 @@ class View {
             this.forest = new Forest(this.stage);
             this.drone = new Drone(this.forest);
             this.forest.onUpdate(this.drone.update.bind(this.drone));
+
         });
+
+        
     }
 
     background(color) {
@@ -225,7 +228,9 @@ class View {
 
     export() {
         const zip = new JSZip();
-        const name = `${document.title}-${new Date().yyyymmddhhmm()}.zip`;
+        let dstr = (new Date()).yyyymmddhhmm();
+        console.log(dstr)
+        const name = `${document.title}-${dstr}.zip`;
 
         // add folders
         this.stage.export(zip);
@@ -246,6 +251,36 @@ class View {
 
         this.drone.reset();
         
+    }
+
+    automaticDownload() {
+        // wait till all trees are initialized with peridic checks
+        var intervalId = setInterval(() => {
+            
+            // this checks if no element in trees (array) is undefined
+            // very hacky, maybe there is a better way to work for the workers???
+            //console.log( this.forest.trees.includes(undefined)
+
+            if(this.forest.trees.includes(undefined)==false){ // all trees are initialized
+                this.capture();             
+
+                clearInterval(intervalId); // stop periodic checks
+
+                // drone reached event: 'droneReached'
+                this.drone.root.addEventListener( 'droneReached', () => {
+                    this.export();        
+                }, false);
+            }
+
+          }, 500);
+        
+        
+        // drone reached event: 'droneReached'
+        /*
+        this.drone.root.addEventListener( 'droneReached', () => {
+            this.export();        
+        }, false);
+        */
     }
 }
 
@@ -330,6 +365,8 @@ const getConfig = async (preset) => {
     });
 }
 
+var view = null;
+
 document.addEventListener('DOMContentLoaded', async () => {
 
     // make Math.random() predictable globally
@@ -338,6 +375,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // define preset files
     const files = [
         'demo',
+        'forest-test',
         'forest-01',
         'forest-02',
         'forest-03',
@@ -362,6 +400,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const preset = await getPreset(files);
     const config = await getConfig(preset);
 
+    const queryString = window.location.search;
+    console.log(queryString);
+    // ?product=shirt&color=blue&newuser&size=m
+
+    const urlParams = new URLSearchParams(queryString);
+
     // init view
-    new View(document.querySelector('#top'), config, files);
+    view = new View(document.querySelector('#top'), config, files, true);
+
+    if(urlParams.has('download') && urlParams.get('download')==true)
+    {
+        console.log('Download!');
+        console.log(view);
+        view.automaticDownload();
+        //view.capture();
+        //view.export();
+
+    }
 });

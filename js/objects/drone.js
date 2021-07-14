@@ -5,6 +5,8 @@ class Drone {
         this.scene = forest.scene;
         this.stage = forest.stage;
         this.forest = forest;
+        //this.goal = { x: 0, y: 0 };
+        //this.position = { x: 0, y: 0, z: 0 };
 
         new THREE.STLLoader().load('stl/drone.stl', ((droneGeometry) => {
             this.flying = false;
@@ -207,6 +209,13 @@ class Drone {
             // reset flying
             this.flying = false;
 
+            // console.log("drone reached goal!");
+            // console.log(this.drone)
+
+            // create an event [see: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events]
+            const event = new Event('droneReached');
+            // Dispatch the event.
+            this.root.dispatchEvent(event);
         
         }
         

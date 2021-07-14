@@ -4,8 +4,8 @@
         "height": 35.0,
         "eastWest": 0.0,
         "northSouth": 0.0,
-        "endx": 0.0,
-        "endy": 0.0,
+        "endx": 30.0,
+        "endy": 30.0,
         "camera": {
             "view": 50,
             "images": 30,
