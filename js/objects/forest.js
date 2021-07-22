@@ -37,7 +37,12 @@ class Forest {
 
         this.twigLeafTexture = {
             'needle-leaf': new THREE.TextureLoader().load('img/needle-leaf.png'),
-            'broad-leaf': new THREE.TextureLoader().load(`img/broad-leaf.png`)
+            'broad-leaf': new THREE.TextureLoader().load(`img/broad-leaf.png`),
+            'ash-leaf': new THREE.TextureLoader().load(`img/ash-leaf.png`),
+            'maple-leaf': new THREE.TextureLoader().load(`img/maple-leaf.png`),
+            'texture1-leaf': new THREE.TextureLoader().load(`img/texture1-leaf.png`),
+            'texture2-leaf': new THREE.TextureLoader().load(`img/texture2-leaf.png`),
+            'texture3-leaf': new THREE.TextureLoader().load(`img/texture3-leaf.png`),
         };
 
        
