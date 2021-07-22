@@ -38,11 +38,11 @@ class View {
         const droneFolder = this.gui.addFolder('drone');
         droneFolder.add(this.config.drone, 'speed', 1, 20, 1).onChange(() => this.drone.update());
         droneFolder.add(this.config.drone, 'height', 1, 100, 1).onChange(() => this.drone.update()).onFinishChange(() => this.forest.update());
-        droneFolder.add(this.config.drone, 'eastWest', -size, size, 0.5).onChange((v) => this.drone.setEastWest(v)).listen();
-        droneFolder.add(this.config.drone, 'northSouth', -size, size, 0.5).onChange((v) => this.drone.setNorthSouth(v)).listen();
+        droneFolder.add(this.config.drone, 'eastWest', -size, size, 1).onChange((v) => this.drone.setEastWest(v)).listen();
+        droneFolder.add(this.config.drone, 'northSouth', -size, size, 1).onChange((v) => this.drone.setNorthSouth(v)).listen();
       
-        droneFolder.add(this.config.drone, 'endx', -size, size, 0.5).onChange(() => this.drone.update());
-        droneFolder.add(this.config.drone, 'endy', -size, size, 0.5).onChange(() => this.drone.update());
+        droneFolder.add(this.config.drone, 'endx', -size, size, 1).onChange(() => this.drone.update());
+        droneFolder.add(this.config.drone, 'endy', -size, size, 1).onChange(() => this.drone.update());
 
         // camera folder
         const cameraFolder = droneFolder.addFolder('camera');
