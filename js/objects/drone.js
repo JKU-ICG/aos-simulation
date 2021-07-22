@@ -122,7 +122,7 @@ class Drone {
         // mouse click coordinates
         
         const mouse = {
-            x: Math.fround((this.config.drone.endx) * 0.00764),  //0.0078742D coordinates of the mouse, in normalized device coordinates (NDC)---X and Y components should be between -1 and 1 range min is -0.45 range max +0.45
+            x: Math.fround((this.config.drone.endx) * 0.00558),  //0.0078742D coordinates of the mouse, in normalized device coordinates (NDC)---X and Y components should be between -1 and 1 range min is -0.45 range max +0.45
             y: Math.fround(-(this.config.drone.endy) * 0.013423)  //The NDC-to-pixel transformation will invert Y if necessary so that Y in NDC points up.
         };
 
