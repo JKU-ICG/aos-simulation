@@ -94,7 +94,24 @@ class Drone {
             x: (e.clientX / this.root.clientWidth) * 2 - 1,
             y: (e.clientY / this.root.clientHeight) * -2 + 1
         };
-
+        //var vector = new THREE.Vector3();
+        //vector.set((e.clientX / this.root.clientWidth) * 2 - 1, - (e.clientY / this.root.clientHeight) * 2 + 1, 0.5);
+        //vector.unproject(this.stage.camera);
+        //var dir = vector.sub(this.stage.camera.position).normalize();
+        //var distance = - this.stage.camera.position.y / dir.y;
+        //var position = this.stage.camera.position.clone().add(dir.multiplyScalar(distance));
+        //console.log("x1: " + position.x + " z1: " + position.z);
+        //console.log("x2: " + e.clientX + " z2: " + e.clientY);
+        //var x3 = ((e.clientX / this.root.clientWidth) * 2 - 1);
+        //var z3 = ((e.clientY / this.root.clientHeight) * -2 + 1);
+        //console.log("x3: " + x3 + " z3: " + z3);
+        //console.log("x4: " + this.root.clientWidth + " z4: " + this.root.clientHeight);
+        //vector.project( this.stage.camera );
+        //vector.x = ( vector.x + 1) * this.root.clientWidth/ 2;
+        //vector.y = - ( vector.y - 1) * this.root.clientHeight / 2;
+        //vector.z = 0;
+        //console.log("x5: " + vector.x + " z5: " + vector.y);
+        // raycast target
         // raycast target
         const ray = new THREE.Raycaster();
         ray.setFromCamera(new THREE.Vector3(mouse.x, mouse.y, 1), this.stage.camera);
@@ -120,12 +137,52 @@ class Drone {
 
         
         // mouse click coordinates
-        
-        const mouse = {
-            x: Math.fround((this.config.drone.endx) * 0.00558),  //0.0078742D coordinates of the mouse, in normalized device coordinates (NDC)---X and Y components should be between -1 and 1 range min is -0.45 range max +0.45
-            y: Math.fround(-(this.config.drone.endy) * 0.013423)  //The NDC-to-pixel transformation will invert Y if necessary so that Y in NDC points up.
-        };
+        var v = this.root.clientWidth / 2;
+        var b =  this.root.clientHeight / 2;
+        console.log("a1: " + v + " b1: " + b);
+        var vector = new THREE.Vector3();
+        vector.set((v / this.root.clientWidth) * 2 - 1, - (b / this.root.clientHeight) * 2 + 1, 0.5);
+        vector.unproject(this.stage.camera);
+        var dir = vector.sub(this.stage.camera.position).normalize();
+        var distance = - this.stage.camera.position.y / dir.y;
+        var position = this.stage.camera.position.clone().add(dir.multiplyScalar(distance));
+        //var x1 = position.x;
+        //var Z1 = position.z;
+        var x1 = ((v / this.root.clientWidth) * 2 - 1);
+        var z1 = ((b / this.root.clientHeight) * -2 + 1);
+        console.log("x1: " + x1 + " z1: " + z1);
+        var n = this.root.clientWidth ;
+        var m =  this.root.clientHeight ;
+        console.log("a2: " + n + " b2: " + m);
+        //var vector = new THREE.Vector3();
+        //vector.set((v / this.root.clientWidth) * 2 - 1, - (b / this.root.clientHeight) * 2 + 1, 0.5);
+        //vector.unproject(this.stage.camera);
+        //var dir = vector.sub(this.stage.camera.position).normalize();
+        //var distance = - this.stage.camera.position.y / dir.y;
+        //var position = this.stage.camera.position.clone().add(dir.multiplyScalar(distance));
+        //var x1 = position.x;
+        //var Z1 = position.z;
+        var x2 = ((n / this.root.clientWidth) * 2 - 1);
+        var z2 = ((m / this.root.clientHeight) * -2 + 1);
+        console.log("x2: " + x2 + " z2: " + z2);
+        var f1 = 0.1863 * (this.root.clientWidth * 0.5);
+        var l1 = 0.1767 * (this.root.clientHeight * 0.5);
+        console.log("x3: " + f1,"z3: " + l1);
+        var x3 = ((x2 - x1)/ (f1));
+        var z3 = -((z2 - z1)/ (l1));
+        console.log("x4: " + x3 + " z4: " + z3);
 
+        // mouse click coordinates
+        //var g = 0.1863 / (this.root.clientWidth * 0.5);
+        var g = (x3 * this.config.drone.endx) ;
+        console.log("x5: " + g);
+        var h = ( z3 * this.config.drone.endy) ;
+        console.log("y5: " + h);
+        const mouse = {
+            x: g ,  //0.0078742D coordinates of the mouse, in normalized device coordinates (NDC)---X and Y components should be between -1 and 1 range min is -0.45 range max +0.45
+            y: h  //The NDC-to-pixel transformation will invert Y if necessary so that Y in NDC points up.
+        };
+        
         // raycast target
         const ray = new THREE.Raycaster();
         ray.setFromCamera(new THREE.Vector3(mouse.x, mouse.y, 1), this.stage.camera);
