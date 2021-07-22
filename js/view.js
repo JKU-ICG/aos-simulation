@@ -111,7 +111,7 @@ class View {
             treeFolder.add(this.config.forest.trees, 'levels', 0, 10, 1),
             treeFolder.add(this.config.forest.trees, 'twigScale', 0.0, 1.0, 0.05),
             treeFolder.add(this.config.forest.trees, 'homogeneity', 50, 100, 1),
-            treeFolder.add(this.config.forest.trees, 'type', ['needle-leaf', 'broad-leaf', 'mixed-leaf'])
+            treeFolder.add(this.config.forest.trees, 'type', ['needle-leaf', 'broad-leaf','ash-leaf','mixed-leaf','maple-leaf','texture1-leaf','texture2-leaf','texture3-leaf'])
         ];
 
         // branching folder
