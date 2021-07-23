@@ -5,9 +5,7 @@ from random import randint
 fake = Faker('en_US')
 
 for i in range(1,10):
-    #a1 = i
-    #a2 = i ** 2 # just so the value is different than the key for demonstration
-    # set a1 as the key and a2 as the value
+  
     my_dict = {
     "drone": {
         "speed": random.randrange(1,10),
