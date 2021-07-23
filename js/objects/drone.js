@@ -165,8 +165,8 @@ class Drone {
         var x2 = ((n / this.root.clientWidth) * 2 - 1);
         var z2 = ((m / this.root.clientHeight) * -2 + 1);
         console.log("x2: " + x2 + " z2: " + z2);
-        var f1 = 0.1863 * (this.root.clientWidth * 0.5);
-        var l1 = 0.1767 * (this.root.clientHeight * 0.5);
+        var f1 = 0.1865 * (this.root.clientWidth * 0.5);
+        var l1 = 0.1766 * (this.root.clientHeight * 0.5);
         console.log("x3: " + f1,"z3: " + l1);
         var x3 = ((x2 - x1)/ (f1));
         var z3 = -((z2 - z1)/ (l1));
