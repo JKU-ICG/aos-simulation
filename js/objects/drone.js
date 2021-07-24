@@ -169,7 +169,7 @@ class Drone {
         var l1 = 0.1766 * (this.root.clientHeight * 0.5);
         console.log("x3: " + f1,"z3: " + l1);
         var x3 = ((x2 - x1)/ (f1));
-        var z3 = -((z2 - z1)/ (l1));
+        var z3 = ((z2 - z1)/ (l1));
         console.log("x4: " + x3 + " z4: " + z3);
 
         // mouse click coordinates
