@@ -321,9 +321,9 @@ class Image {
             },
             processed: {
                 center: new THREE.Vector3(
-                    Math.round((this.view.x * this.resolution.x / max.x))*10)/10,
+                    Math.round(((this.view.x * this.resolution.x / max.x))*10)/10,
                     0,
-                    Math.round((this.view.z * this.resolution.z / max.z))*10)/10
+                    Math.round(((this.view.z * this.resolution.z / max.z))*10)/10
                 ),
                 points: visiblePoints
             }
