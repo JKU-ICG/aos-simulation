@@ -396,26 +396,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         'forest-43'
     ];
 
-    // load preset and config
-    const preset = await getPreset(files);
-    const config = await getConfig(preset);
+  
+        const queryString = window.location.search;
+        console.log(queryString);
+        // ?product=shirt&color=blue&newuser&size=m
+        preset = 'demo'; ///await getPreset(files);    
+        const urlParams = new URLSearchParams(queryString);
+        console.log("urldownload: " + urlParams.get('download'));
+        if (urlParams.get('download') == null)
+        {
+            preset = 'demo'; ///await getPreset(files);
+            console.log("enx4: " + preset);
+        }
+        if (urlParams.get('download') >= 1)
+        {
+            preset = files[parseInt(urlParams.get('download'))]; ///await getPreset(files);
+            console.log("e1x4: " + preset);
+        }
+        else
+        {
+            preset = 'demo'; ///await getPreset(files);
+            console.log("eax4: " + preset);
+        }
+        //const preset = 'demo'; ///await getPreset(files);
+        console.log("x4: " + preset);
+        const config = await getConfig(preset);
+       
 
-    const queryString = window.location.search;
-    console.log(queryString);
-    // ?product=shirt&color=blue&newuser&size=m
 
-    const urlParams = new URLSearchParams(queryString);
+        // init view
+        view = new View(document.querySelector('#top'), config, files, true);
+        console.log("inti view  done and url has download " + urlParams.has('download') + "and url get download is " +  urlParams.get('download'));
+        if(urlParams.has('download') && parseInt(urlParams.get('download')) >= 1)
+        {
+            console.log('Download!');
+            console.log(view);
+            view.automaticDownload();
+            //view.capture();
+            //view.export();
 
-    // init view
-    view = new View(document.querySelector('#top'), config, files, true);
+        }
+        await timeout(40000)
+        if (urlParams.get('download') != null)
+        {
+            val = parseInt(urlParams.get('download')) + 1
+            console.log("val: " + val);
+            urlstring =   'http://127.0.0.1:5501/?download=' + val.toString()
+        }
+        else{
+            urlstring = 'http://127.0.0.1:5501/?download=1'
+        }
+        window.location.replace(urlstring);
+    //}, 5000);
 
-    if(urlParams.has('download') && urlParams.get('download')==true)
-    {
-        console.log('Download!');
-        console.log(view);
-        view.automaticDownload();
-        //view.capture();
-        //view.export();
-
-    }
+    
+    
 });
