@@ -262,6 +262,7 @@ class Drone {
             // goal reached
             this.config.drone.eastWest = this.goal.x;
             this.config.drone.northSouth = this.goal.z;
+            this.camera.capture(true);
 
             // reset flying
             this.flying = false;
