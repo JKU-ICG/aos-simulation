@@ -249,7 +249,7 @@ class Drone {
 
             // capture image
             if (deltaDistance >= this.config.drone.camera.sampling) {
-                this.lastCapture = Math.fround(currentDistance);
+                this.lastCapture = Math.floor(currentDistance);
                 this.camera.capture(true);
             }
 
