@@ -22,7 +22,7 @@ For example you can use https://jku-icg.github.io/aos-simulation/?download=1 to 
 
 [ ] run non-realtime: right now everything runs in real-time. This is a problem for generating huge training datasets because multiple frames will be rendered although only a handful (e.g., 10 or 30) will be needed. 
 
-[ ] automate the rendering with multple configurations that are sequentially processed. 
+
 
 ## License
 [MIT](/LICENSE)
