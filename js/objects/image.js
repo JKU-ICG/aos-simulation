@@ -307,9 +307,9 @@ class Image {
         const image = {
             rendered: {
                 center: new THREE.Vector3(
-                    Math.floor(this.view.x),
+                    Math.round((this.view.x)*100)/100,
                     0,
-                    Math.floor(this.view.z)
+                    Math.round((this.view.z)*100)/100
                 ),
                 points: visiblePoints.map((p) => {
                     return new THREE.Vector3(
@@ -321,9 +321,9 @@ class Image {
             },
             processed: {
                 center: new THREE.Vector3(
-                    Math.floor(this.view.x * this.resolution.x / max.x),
+                    Math.round((this.view.x * this.resolution.x / max.x)*100)/100,
                     0,
-                    Math.floor(this.view.z * this.resolution.z / max.z)
+                    Math.round((this.view.z * this.resolution.z / max.z)*100)/100
                 ),
                 points: visiblePoints
             }
