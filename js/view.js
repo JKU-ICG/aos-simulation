@@ -366,6 +366,9 @@ const getConfig = async (preset) => {
 }
 
 var view = null;
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
 
