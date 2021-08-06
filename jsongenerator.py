@@ -1,8 +1,8 @@
 import json 
-from faker import Faker
 import random
 from random import randint
-fake = Faker('en_US')
+#from faker import Faker
+#fake = Faker('en_US')
 
 for i in range(1,10):
   

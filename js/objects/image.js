@@ -176,7 +176,8 @@ class Image {
                         Math.fround(p.z * this.resolution.z / max.z)
                     );
                 })
-            }
+            },
+            M: this.getCameraMatrix(),
         };
 
         // canvas image
@@ -326,7 +327,8 @@ class Image {
                     Math.round((this.view.z * this.resolution.z / max.z)*100)/100
                 ),
                 points: visiblePoints
-            }
+            },
+            M: this.getCameraMatrix(),
         };
 
         // canvas image
@@ -380,5 +382,12 @@ class Image {
 
         // return image index
         return images.length - 1;
+    }
+
+
+    getCameraMatrix() {
+        const tjCamera = this.camera.camera; // threejs camera 
+        tjCamera.updateWorldMatrix(true,false);
+        return tjCamera.matrixWorld.toArray();
     }
 }

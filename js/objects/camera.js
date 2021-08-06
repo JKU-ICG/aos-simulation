@@ -332,8 +332,9 @@ class Camera {
                 image: number,
                 center: {
                     rendered: image.rendered.center,
-                    processed: image.processed.center
-                }
+                    processed: image.processed.center,
+                },
+                matrix: image.M,
             });
 
             // export images
