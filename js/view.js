@@ -444,10 +444,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         {
             val = parseInt(urlParams.get('download')) + 1
             console.log("val: " + val);
-            urlstring =   'http://127.0.0.1:5501/?download=' + val.toString()
+            urlstring =   './?download=' + val.toString()
         }
         else{
-            urlstring = 'http://127.0.0.1:5501/?download=1'
+            urlstring = './?download=1'
         }
         window.location.replace(urlstring);
     //}, 5000);
