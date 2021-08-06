@@ -243,6 +243,11 @@ class View {
         // generate zip
         zip.generateAsync({ type: 'blob' }).then((data) => {
             saveAs(data, name);
+            //console.log('saveAs done!');
+            // Create an event [see: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events]
+            // Dispatch the event.
+            this.root.dispatchEvent(new Event('saveAsDone'));
+            //console.log('event \'exportDone\' fired!');
         });
     }
 
@@ -253,7 +258,7 @@ class View {
         
     }
 
-    automaticDownload() {
+    async automaticDownload() {
         // wait till all trees are initialized with peridic checks
         var intervalId = setInterval(() => {
             
@@ -267,8 +272,12 @@ class View {
                 clearInterval(intervalId); // stop periodic checks
 
                 // drone reached event: 'droneReached'
-                this.drone.root.addEventListener( 'droneReached', () => {
-                    this.export();        
+                this.drone.root.addEventListener( 'droneReached', async () => {
+                    await this.export();        
+                    // Create an event [see: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events]
+                    // Dispatch the event.
+                    this.root.dispatchEvent(new Event('exportDone'));
+                    //console.log('event \'exportDone\' fired!');
                 }, false);
             }
 
@@ -439,6 +448,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             //view.export();
 
         }
+
+
+        view.root.addEventListener('saveAsDone', () => {
+                    console.log('event \'saveAs\' listened!');
+
+                    if (urlParams.get('download') != null)
+                    {
+                        val = parseInt(urlParams.get('download')) + 1
+                        //console.log("val: " + val);
+                        urlstring =   './?download=' + val.toString()
+                    }
+                    else{
+                        urlstring = './?download=1'
+                    }
+                    window.location.replace(urlstring); // this causes the browser to reload the page with the next download ID e.g. download=3 gets download=4
+                }, false);
+
+        /*
         await timeout(40000)
         if (urlParams.get('download') != null)
         {
@@ -450,6 +477,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             urlstring = './?download=1'
         }
         window.location.replace(urlstring);
+        */
     //}, 5000);
 
     
